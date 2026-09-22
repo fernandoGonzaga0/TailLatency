@@ -1,0 +1,22 @@
+# Ambiente virtual
+.venv/
+
+# Bytecode e cache do Python
+__pycache__/
+*.pyc
+
+# Dados gerados pelas simulações (mantém a pasta no git, ignora o conteúdo)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Resultados (mantém a pasta no git, ignora o conteúdo)
+results/*
+!results/.gitkeep
+
+# VS Code
+.vscode/
+
+# Notebooks
+.ipynb_checkpoints/
