@@ -21,3 +21,6 @@ results/*
 # Notebooks
 .ipynb_checkpoints/
 articles/
+
+# Relatorios em Word (nao versionar)
+*.docx

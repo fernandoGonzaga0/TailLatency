@@ -33,7 +33,7 @@ individual e latência do conjunto de chamadas concorrentes), consumido
 depois por src/data/ (marcação por limiar de SLA/percentil) e por
 src/analysis/ (cálculo das métricas).
 
-Estado atual (21/10/2026)
+Estado atual (22/10/2026)
 --------------------------
 Passo 1 (nota de escopo e verificação do ambiente, sandbox_check.py), passo 2
 (modelagem dos recursos, recursos.py, verificado por teste_recursos.py), passo 3
@@ -46,7 +46,27 @@ da spliced em p_corte = 0,95 e scale da GPD por continuidade da densidade
 (escolha do TCC, não do Kyung); peso da cauda controlado só pelo xi. Decisões do
 passo 4: concorrência em sistema fechado, com C requisições em andamento e think
 time zero (precedente: Tennage et al., 2019; Harchol-Balter, 2013, seção 2.6);
-a latência do conjunto é o máximo das N latências individuais. A
-parametrização por cenário, a reprodutibilidade, o formato de saída e a
-validação do módulo (passos 5 a 8) ainda serão implementados.
+a latência do conjunto é o máximo das N latências individuais.
+Passo 5 (parametrização por cenário, cenarios.py e config/grade.toml, verificado
+por teste_cenarios.py) concluído em 22/10/2026: capacity = 4 fixa; grade de 5
+fan-outs x 6 níveis de C x 4 pesos de cauda = 120 cenários; 5 replicações de
+10.000 requisições com 500 de aquecimento; seeds derivadas de [seed_base,
+cenário, replicação]; configuração em TOML (tomllib, sem dependência nova).
+Passo 6 (reprodutibilidade, manifesto.py, verificado por teste_manifesto.py)
+concluído em 22/10/2026: cada execução (cenário x replicação) grava um manifesto
+JSON com cenário, seed, limiares em ms, hash da grade, versões, commit do git e
+resumo do resultado; verificar_manifesto refaz a execução e compara com
+tolerância.
+Passo 7 (formato de saída, saida.py, verificado por teste_saida.py) concluído em
+22/10/2026: uma linha por requisição (não por chamada), em CSV comprimido
+(.csv.gz), um arquivo por execução ao lado do manifesto, com floats em precisão
+completa e gravação determinística; o manifesto (versão 2) registra arquivo,
+número de linhas e SHA-256 do conteúdo, e a verificação confere o arquivo. Cerca
+de 0,4 MB por execução (cerca de 240 MB nas 600). A execução da grade (Fase 5)
+ainda será implementada.
+Passo 8 (validação do módulo, validacao.py, ferramentas verificadas por
+teste_validacao.py) concluído em 22/10/2026: sem contenção (C <= capacidade) a
+simulação é comparada com a teoria 1 - q^N (q = 0,90, 0,95 e 0,99), com os
+percentis da chamada e do conjunto (quantil p^(1/N)), com IC de Wilson de 95%;
+teste que falha é refeito uma vez com outra seed_base, sem mudar a tolerância.
 """

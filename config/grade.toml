@@ -1,0 +1,52 @@
+# Grade de cenários do TCC — Etapa 5, passo 5 (decidida em 22/10/2026).
+#
+# Cada combinação (fan_out, concorrencia, xi) é um cenário, com identificador
+# do tipo "N010_C06_xi0.50". Todos os cenários compartilham os valores de
+# [geral] e [latencia]. Leitura e validação: src/simulation/cenarios.py.
+#
+# Para listar os cenários, a partir da raiz do projeto (venv ativado):
+#     python -m src.simulation.cenarios --listar
+
+[geral]
+# Seed base. A seed de cada replicação de cada cenário é derivada dela, do
+# cenário e do número da replicação (não depende da ordem da grade).
+seed_base = 2026
+
+# Atendentes por API (fila FIFO ilimitada). Fixo em 4 para o eixo de
+# concorrência ficar limpo: C <= 4 não tem contenção; C > 4 tem fila.
+# Com capacidade 1, qualquer C >= 2 saturaria as APIs (achado do passo 4).
+# Precedente: Tennage et al. (2019) simulam 4 núcleos por serviço.
+capacidade = 4
+
+# Requisições medidas por replicação, mais as primeiras n_aquecimento, que
+# são descartadas porque os C laços começam sincronizados no instante 0.
+n_requisicoes = 10000
+n_aquecimento = 500
+
+# Replicações independentes por cenário (seeds diferentes). O IC de 95% é
+# calculado entre as replicações, pois as requisições de um mesmo laço são
+# correlacionadas quando há contenção. Com 5 replicações o piloto deu IC de
+# no máximo cerca de 0,8 ponto percentual (critério: 1 ponto percentual).
+n_replicacoes = 5
+
+[latencia]
+# Distribuição spliced (passo 3): corpo lognormal com mediana de 10 ms
+# (mu = ln 10) e sigma = 0,5, cortada no p95, com cauda GPD. A escala da GPD
+# é fixada por continuidade da densidade (escolha do TCC). Tempo em ms.
+mediana_ms = 10.0
+sigma = 0.5
+p_corte = 0.95
+
+[grade]
+# Grau de fan-out N (= número de APIs). N = 50 entra mesmo com o efeito de
+# teto da probabilidade de violação (92% sem contenção): ainda informa o
+# p99/p50 e a espera.
+fan_out = [1, 5, 10, 20, 50]
+
+# Nível de concorrência C (requisições em andamento, sistema fechado, think
+# time zero). 1 e 4 não têm contenção (validam a teoria 1 - q^N); de 6 a 12
+# fica a transição. O piloto mostrou saturação (cerca de 100%) em C = 12-16.
+concorrencia = [1, 4, 6, 8, 10, 12]
+
+# Peso da cauda (parâmetro de forma da GPD). Valores com até 2 casas decimais.
+xi = [0.2, 0.5, 0.8, 1.1]
