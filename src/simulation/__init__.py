@@ -33,11 +33,20 @@ individual e latência do conjunto de chamadas concorrentes), consumido
 depois por src/data/ (marcação por limiar de SLA/percentil) e por
 src/analysis/ (cálculo das métricas).
 
-Estado atual (22/09/2026)
+Estado atual (21/10/2026)
 --------------------------
-Só a nota de escopo acima e um teste mínimo de ambiente
-(sandbox_check.py) existem até agora. A modelagem dos recursos, a
-geração de latência lognormal+GPD, os processos de fan-out e a
-parametrização por cenário ainda serão implementados nos próximos
-passos da Etapa 5.
+Passo 1 (nota de escopo e verificação do ambiente, sandbox_check.py), passo 2
+(modelagem dos recursos, recursos.py, verificado por teste_recursos.py), passo 3
+(gerador de latência lognormal + GPD, latencia.py, verificado por
+teste_latencia.py e validar_latencia.py) e passo 4 (processos de requisição e
+fan-out, requisicoes.py, verificado por teste_requisicoes.py) concluídos.
+Decisões do passo 2: número de APIs por cenário = grau de fan-out N; capacidade
+por API configurável, padrão 1; fila FIFO ilimitada. Decisões do passo 3: corte
+da spliced em p_corte = 0,95 e scale da GPD por continuidade da densidade
+(escolha do TCC, não do Kyung); peso da cauda controlado só pelo xi. Decisões do
+passo 4: concorrência em sistema fechado, com C requisições em andamento e think
+time zero (precedente: Tennage et al., 2019; Harchol-Balter, 2013, seção 2.6);
+a latência do conjunto é o máximo das N latências individuais. A
+parametrização por cenário, a reprodutibilidade, o formato de saída e a
+validação do módulo (passos 5 a 8) ainda serão implementados.
 """
