@@ -1,1 +1,1 @@
-"""Módulo de dados: geração e rotulagem do dataset sintético a partir das simulações."""
+"""Módulo de dados: organização e marcação do histórico de latência simulado (uma coluna de violação por limiar — viola_p90, viola_p95 e viola_p99 — e metadados com os valores dos limiares em ms), para uso direto pelas métricas de src/analysis/."""

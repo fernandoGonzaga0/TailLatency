@@ -1,1 +1,1 @@
-"""Módulo de análise/avaliação: cálculo das métricas (percentis, fator de amplificação de cauda, acurácia, precisão, recall, AUC-ROC)."""
+"""Módulo de análise/avaliação: cálculo das métricas do fenômeno (percentis p50/p95/p99, fator de amplificação de cauda p99/p50 e probabilidade de violação de SLA nos limiares p90, p95 e p99) e comparação com a teoria de estatística de ordem (1 − q^N)."""
