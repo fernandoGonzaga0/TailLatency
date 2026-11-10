@@ -63,8 +63,8 @@ def teste_grade_oficial_tem_120_cenarios():
     assert {c.xi for c in cs} == {0.2, 0.5, 0.8, 1.1}
     assert all(c.capacidade == 4 for c in cs)
     assert all(c.n_requisicoes == 10000 and c.n_aquecimento == 500 for c in cs)
-    assert all(c.n_replicacoes == 5 and c.seed_base == 2026 for c in cs)
-    assert sum(c.n_replicacoes for c in cs) == 600
+    assert all(c.n_replicacoes == 10 and c.seed_base == 2026 for c in cs)
+    assert sum(c.n_replicacoes for c in cs) == 1200
 
 
 def teste_ids_unicos_e_formato():
@@ -99,7 +99,7 @@ def teste_parametros_de_latencia():
 def teste_seeds_deterministicas_e_distintas():
     cs = carregar_grade(CAMINHO_PADRAO)
     seeds = [c.seed(k) for c in cs for k in range(c.n_replicacoes)]
-    assert len(set(seeds)) == 600  # nenhuma colisão
+    assert len(set(seeds)) == 1200  # nenhuma colisão
     assert cs[0].seed(0) == carregar_grade(CAMINHO_PADRAO)[0].seed(0)
     # valor de referência: se mudar, a reprodutibilidade entre versões quebrou
     assert buscar_cenario(cs, "N010_C06_xi0.50").seed(0) == _SEED_REFERENCIA

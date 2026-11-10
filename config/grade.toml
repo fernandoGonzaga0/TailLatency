@@ -24,10 +24,15 @@ n_requisicoes = 10000
 n_aquecimento = 500
 
 # Replicações independentes por cenário (seeds diferentes). O IC de 95% é
-# calculado entre as replicações, pois as requisições de um mesmo laço são
-# correlacionadas quando há contenção. Com 5 replicações o piloto deu IC de
-# no máximo cerca de 0,8 ponto percentual (critério: 1 ponto percentual).
-n_replicacoes = 5
+# calculado entre as replicações (t de Student), pois as requisições de um mesmo
+# laço são correlacionadas quando há contenção. Eram 5; subiram para 10 em
+# 10/11/2026, depois de a análise mostrar IC de até 9,6 pontos percentuais na
+# violação com cauda muito pesada (xi >= 0,8) e fila. Alongar as execuções quase
+# não ajuda ali (a variância dentro da execução cai muito mais devagar que
+# 1/sqrt(n) com xi = 1,1); replicações independentes ajudam. As 5 primeiras
+# replicações de cada cenário não mudam (a seed depende só do cenário e da
+# replicação).
+n_replicacoes = 10
 
 [latencia]
 # Distribuição spliced (passo 3): corpo lognormal com mediana de 10 ms
