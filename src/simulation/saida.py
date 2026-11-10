@@ -80,16 +80,22 @@ def conteudo_csv(resultado) -> bytes:
     return ("\n".join(linhas) + "\n").encode("utf-8")
 
 
-def gravar_requisicoes(resultado, caminho: Path | str) -> dict:
-    """Grava a tabela por requisição e devolve {arquivo, linhas, sha256_conteudo}."""
+def gravar_conteudo(conteudo: bytes, caminho: Path | str) -> None:
+    """Grava bytes em `.gz` de forma determinística e atômica (temporário + renomeação)."""
     caminho = Path(caminho)
     caminho.parent.mkdir(parents=True, exist_ok=True)
-    conteudo = conteudo_csv(resultado)
     temporario = caminho.with_name(caminho.name + ".tmp")
     with open(temporario, "wb") as f:
         with gzip.GzipFile(filename="", mode="wb", fileobj=f, mtime=0) as gz:
             gz.write(conteudo)
     os.replace(temporario, caminho)
+
+
+def gravar_requisicoes(resultado, caminho: Path | str) -> dict:
+    """Grava a tabela por requisição e devolve {arquivo, linhas, sha256_conteudo}."""
+    caminho = Path(caminho)
+    conteudo = conteudo_csv(resultado)
+    gravar_conteudo(conteudo, caminho)
     return {
         "arquivo": caminho.name,
         "linhas": len(resultado),
