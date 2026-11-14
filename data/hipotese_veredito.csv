@@ -1,0 +1,10 @@
+criterio,limiar,testes,passam,fracao,minimo,aprovado
+1b_cresce_com_N,p90,8,8,1.0,0.9,true
+1b_cresce_com_N,p95,8,8,1.0,0.9,true
+1b_cresce_com_N,p99,8,8,1.0,0.9,true
+2a_acima_da_teoria,p90,80,72,0.9,0.9,true
+2a_acima_da_teoria,p95,80,76,0.95,0.9,true
+2a_acima_da_teoria,p99,80,68,0.85,0.9,false
+2b_cresce_com_C,p90,20,19,0.95,0.9,true
+2b_cresce_com_C,p95,20,20,1.0,0.9,true
+2b_cresce_com_C,p99,20,18,0.9,0.9,true
