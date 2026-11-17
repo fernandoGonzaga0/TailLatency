@@ -1,0 +1,7 @@
+criterio,tipo,testes,passam,fracao,minimo,aprovado
+A1_fim_execucao_sobreposicao,criterio,30,30,1.0,0.9,true
+A1_fim_execucao_pareada,descritivo,30,29,0.9666666666666667,0.9,true
+A2_aquecimento_2000_vs_500_sobreposicao,criterio,8,8,1.0,0.9,true
+A2_aquecimento_2000_vs_500_pareada,descritivo,8,6,0.75,0.9,false
+A2_aquecimento_500_vs_0_sobreposicao,descritivo,8,8,1.0,0.9,true
+A2_aquecimento_500_vs_0_pareada,descritivo,8,5,0.625,0.9,false
